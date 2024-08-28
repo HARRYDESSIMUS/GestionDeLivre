@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Livres</title>
+</head>
+<body>
+    <h1>Liste des Livres</h1>
+    <table>
+        <tr>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>ISBN</th>
+            <th>Disponible</th>
+            <th>Actions</th>
+        </tr>
+        {% for livre in livres %}
+        <tr>
+            <td>{{ livre['titre'] }}</td>
+            <td>{{ livre['auteur'] }}</td>
+            <td>{{ livre['isbn'] }}</td>
+            <td>{{ 'Oui' if livre['disponible'] else 'Non' }}</td>
+            <td>
+                {% if livre['disponible'] %}
+                <form action="{{ url_for('emprunter_livre', id=livre['id']) }}" method="post">
+                    <button type="submit">Emprunter</button>
+                </form>
+                {% else %}
+                <form action="{{ url_for('retourner_livre', id=livre['id']) }}" method="post">
+                    <button type="submit">Retourner</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('ajouter_livre') }}">Ajouter un nouveau livre</a>
+</body>
+</html>
